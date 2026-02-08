@@ -55,7 +55,7 @@ function PrescriptionDetails() {
             }
         };
         fetchDetails();
-    }, []);
+    }, [id]);
 
 
 

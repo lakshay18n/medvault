@@ -21,7 +21,7 @@ function Profile() {
       setEmail(user.email);
     };
     fetchUser();
-  }, []);
+  }, [navigate]);
 
 
 
