@@ -36,7 +36,6 @@ function TopNav() {
         setReminderCount(count || 0);
     };
 
-    const isRemindersPage = location.pathname.startsWith("/reminders");
 
     return (
         <div style={styles.wrapper}>

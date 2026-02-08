@@ -9,14 +9,6 @@ function Dashboard() {
     const [prescriptionCount, setPrescriptionCount] = useState(0);
     const [medicineCount, setMedicineCount] = useState(0);
 
-    const badgeStyle = {
-        position: "absolute",
-        top: 0,
-        right: 0,
-        color: "red",
-        fontSize: "20px",
-    };
-
 
 
     // 🔐 Auth Guard
