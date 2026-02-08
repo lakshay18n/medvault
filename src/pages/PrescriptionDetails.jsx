@@ -26,37 +26,38 @@ function PrescriptionDetails() {
 
     /* ---------------- FETCH DETAILS ---------------- */
     useEffect(() => {
+        const fetchDetails = async () => {
+            try {
+                setLoading(true);
+
+                const { data: pData, error: pError } = await supabase
+                    .from("prescriptions")
+                    .select("*")
+                    .eq("id", id)
+                    .single();
+
+                if (pError) throw pError;
+
+                const { data: mData, error: mError } = await supabase
+                    .from("medicines")
+                    .select("*")
+                    .eq("prescription_id", id);
+
+                if (mError) throw mError;
+
+                setPrescription(pData);
+                setMedicines(mData || []);
+            } catch (err) {
+                console.error(err);
+                alert("Failed to load prescription");
+            } finally {
+                setLoading(false);
+            }
+        };
         fetchDetails();
     }, []);
 
-    const fetchDetails = async () => {
-        try {
-            setLoading(true);
 
-            const { data: pData, error: pError } = await supabase
-                .from("prescriptions")
-                .select("*")
-                .eq("id", id)
-                .single();
-
-            if (pError) throw pError;
-
-            const { data: mData, error: mError } = await supabase
-                .from("medicines")
-                .select("*")
-                .eq("prescription_id", id);
-
-            if (mError) throw mError;
-
-            setPrescription(pData);
-            setMedicines(mData || []);
-        } catch (err) {
-            console.error(err);
-            alert("Failed to load prescription");
-        } finally {
-            setLoading(false);
-        }
-    };
 
     /* ---------------- DELETE PRESCRIPTION ---------------- */
     const handleDeletePrescription = async () => {
@@ -80,7 +81,7 @@ function PrescriptionDetails() {
     if (loading) return <p style={{ padding: 20 }}>Loading...</p>;
 
     return (
-        <div style={{ maxWidth: 900, margin: "auto", padding: 50}}>
+        <div style={{ maxWidth: 900, margin: "auto", padding: 50 }}>
             <h2>📄 Prescription Details</h2>
 
             {prescription?.image_url && (
@@ -450,41 +451,4 @@ function PrescriptionDetails() {
     );
 }
 
-export default PrescriptionDetails;
-
-/* ---------------- STYLES ---------------- */
-
-const modalOverlay = {
-    position: "fixed",
-    inset: 0,
-    background: "rgba(0,0,0,0.4)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 1000,
-};
-
-const modalBox = {
-    background: "#fff",
-    padding: 20,
-    borderRadius: 14,
-    width: "90%",
-    maxWidth: 400,
-};
-
-const primaryBtn = {
-    background: "#4f46e5",
-    color: "#fff",
-    border: "none",
-    padding: "10px 14px",
-    borderRadius: 8,
-    cursor: "pointer",
-};
-
-const secondaryBtn = {
-    background: "#eee",
-    border: "none",
-    padding: "10px 14px",
-    borderRadius: 8,
-    cursor: "pointer",
-};
+export default PrescriptionDetails; 

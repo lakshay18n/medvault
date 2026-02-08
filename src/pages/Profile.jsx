@@ -8,21 +8,22 @@ function Profile() {
 
   /* ---------------- GET LOGGED IN USER ---------------- */
   useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        navigate("/login");
+        return;
+      }
+
+      setEmail(user.email);
+    };
     fetchUser();
   }, []);
 
-  const fetchUser = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
 
-    if (!user) {
-      navigate("/login");
-      return;
-    }
-
-    setEmail(user.email);
-  };
 
   /* ---------------- LOGOUT ---------------- */
   const handleLogout = async () => {

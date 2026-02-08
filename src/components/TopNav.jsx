@@ -1,11 +1,10 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "../superbaseClient";
 
 
 function TopNav() {
     const navigate = useNavigate();
-    const location = useLocation();
     const [reminderCount, setReminderCount] = useState(0);
 
     useEffect(() => {
